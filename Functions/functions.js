@@ -13,7 +13,8 @@ const getPlayerChoice = function () {
 
   if (selection !== ROCK && selection !== PAPER && selection !== SCISSORS) {
     alert(`Invalid choice!We chose ${DEFAULT_USER_CHOICE} for you`);
-    selection = DEFAULT_USER_CHOICE;
+    // selection = DEFAULT_USER_CHOICE;
+    return;
   }
   return selection;
 };
@@ -33,7 +34,7 @@ const getComputerChoice = function () {
 
 const add = (a, b) => a + b;
 
-const getWinner = (cChoice, pChoice) =>
+const getWinner = (cChoice, pChoice = DEFAULT_USER_CHOICE) =>
   cChoice === pChoice
     ? RESULT_DRAW
     : (cChoice === ROCK && pChoice === SCISSORS) ||
@@ -50,8 +51,15 @@ startGameBtn.addEventListener('click', function () {
   console.log('Game is starting');
   const playerSelection = getPlayerChoice();
   const computerChoice = getComputerChoice();
-  const winner = getWinner(playerSelection, computerChoice);
-  let message = `You picked ${playerSelection}, Computer Picked: ${computerChoice}`;
+  let winner;
+  if (playerSelection) {
+    winner = getWinner(computerChoice, playerSelection);
+  } else {
+    winner = getWinner(computerChoice, playerSelection);
+  }
+  let message = `You picked ${
+    playerSelection || DEFAULT_USER_CHOICE
+  }, Computer Picked: ${computerChoice}`;
   if (winner === RESULT_DRAW) {
     message = message + '. DRAW.';
   } else if (winner === RESULT_PLAYER_WINS) {
@@ -62,3 +70,49 @@ startGameBtn.addEventListener('click', function () {
   alert(message);
   gameIsRunning = false;
 });
+
+//not related
+
+const combine = (resultHandler, operation, ...numbers) => {
+  let sum = 0;
+
+  for (const num of numbers) {
+    if (operation === 'ADD') sum += num;
+    else sum -= num;
+  }
+  resultHandler(sum);
+};
+
+// const subtract = function (resultHandler, ...numbers) {
+//   // console.log(arguments) - old way - arguments instead of spread(...)
+//   let sum = 0;
+
+//   for (const num of numbers) {
+//     sum -= num;
+//   }
+//   resultHandler(sum, 'The result after substracting number is ');
+// };
+
+const showResult = (messageText, result) => {
+  alert(messageText + ' ' + result);
+};
+
+combine(
+  showResult.bind(this, 'The result after adding all numbers is '),
+  'ADD',
+  1,
+  2,
+  3,
+  23,
+  21,
+  3
+);
+combine(
+  showResult.bind(this, 'The result after substracting all numbers is '),
+  'SUB',
+  1,
+  2,
+  3,
+  4,
+  4
+);
