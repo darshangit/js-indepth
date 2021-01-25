@@ -43,3 +43,13 @@ button.addEventListener('click', () => {
   ul.insertAdjacentElement('beforeend', l3); // better browser support
   ul.insertAdjacentElement('beforeend', l2); // better browser support
 });
+
+const li = ul.getElementsByTagName('li');
+console.log(li); // this will always show live updated array - after addition too
+//queryselection gives a snapshot
+const newLi = li[0].cloneNode(true);
+ul.append(newLi);
+
+newLi.removeChild(); // IE doesnt support
+//safest way to remove
+newLi.parentElement.removeChild(newLi);
