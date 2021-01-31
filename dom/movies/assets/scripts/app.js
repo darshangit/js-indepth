@@ -30,12 +30,30 @@ const deleteMovie = (movieId) => {
   movies.splice(movieIndex, 1); // Splice manipulates the array
   const listRoot = document.getElementById('movie-list');
   listRoot.children[movieIndex].remove();
+  deletMovieModal.classList.remove('visible');
+  updateUI();
+};
+
+const cancel = function () {
+  deletMovieModal.classList.remove('visible');
 };
 
 const deleteMovieHandler = (movieId) => {
-  const deletMovieModal = document.getElementById('delete-modal');
+  deletMovieModal = document.getElementById('delete-modal');
   deletMovieModal.classList.add('visible');
-  toggleBackDrop();
+  let confirmDeleteButton = deletMovieModal.querySelector('.btn--danger');
+
+  confirmDeleteButton.replaceWith(confirmDeleteButton.cloneNode(true)); // so that the event listener is garbage collected
+  confirmDeleteButton = deletMovieModal.querySelector('.btn--danger');
+
+  confirmDeleteButton.addEventListener(
+    'click',
+    deleteMovie.bind(null, movieId)
+  );
+
+  const cancelDeleteButton = deletMovieModal.querySelector('.btn--passive');
+  cancelDeleteButton.removeEventListener('click', cancel);
+  cancelDeleteButton.addEventListener('click', cancel);
 };
 
 const renderNewMovieElement = (id, title, imageUrl, rating) => {
