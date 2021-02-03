@@ -121,3 +121,11 @@ const name1 = ['Dash', 'Priya'];
 console.log(name1.join(''));
 
 // Spread Operator
+console.log(...name1);
+const copiedNameFragments = [...name1];
+console.log(copiedNameFragments);
+const spreadNumber = [1, 2, 3, 4];
+
+console.log(Math.min(...spreadNumber)); // ... desctructes
+
+
