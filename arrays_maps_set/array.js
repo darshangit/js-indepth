@@ -117,7 +117,7 @@ console.log(
 );
 
 //split and join
-const name1 = ['Dash', 'Priya'];
+const name1 = ['Dash', 'Priya', 'bla', 'bla'];
 console.log(name1.join(''));
 
 // Spread Operator
@@ -128,4 +128,7 @@ const spreadNumber = [1, 2, 3, 4];
 
 console.log(Math.min(...spreadNumber)); // ... desctructes
 
-
+//Array Destructuring
+const [firstName, lastName, ...blabla] = name1;
+console.log(firstName + ' ' + lastName);
+console.log(blabla);
