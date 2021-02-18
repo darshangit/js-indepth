@@ -1,3 +1,4 @@
+'use strict';
 const addMovieBtn = document.getElementById('add-movie-btn');
 const searchBtn = document.getElementById('search-btn');
 
@@ -23,8 +24,10 @@ const renderMovies = (filter = '') => {
       // to check if the value object has a values or if(movie.info === undefined)
     }
     const { info, ...otherProps } = movie; // object destructuring
-    const { title: movieTitle } = info; // the title is saved in movieTitle ( if we want to change the title naming)
-    let text = movieTitle + '-';
+    // const { title: movieTitle } = info; // the title is saved in movieTitle ( if we want to change the title naming)
+    let { getFormattedTitle } = movie;
+    // getFormattedTitle = getFormattedTitle.bind(movie);
+    let text = getFormattedTitle.call(movie) + '-'; //can use apply - it will use the second parameter as array arguments
     for (const key in info) {
       if (key !== 'title') {
         text = text + `${key}: ${info[key]}`;
@@ -40,21 +43,33 @@ const addMovieHandler = () => {
   const extraName = document.getElementById('extra-name').value;
   const extraValue = document.getElementById('extra-value').value;
 
-  if (
-    title.trim() === '' ||
-    extraName.trim() === '' ||
-    extraValue.trim() === ''
-  ) {
+  if (extraName.trim() === '' || extraValue.trim() === '') {
     return;
   }
 
   const newMovie = {
     info: {
-      title, // same as title:title
+      set title(value) {
+        if (value.trim() === '') {
+          this._title = 'DEFAULT';
+          return;
+        }
+        this._title = value;
+      },
+      get title() {
+        return this._title;
+      },
+      // title, // same as title:title
       [extraName]: extraValue,
     },
     id: Math.random(),
+    getFormattedTitle() {
+      // console.log(this);
+      return this.info.title.toUpperCase();
+    },
   };
+
+  newMovie.info.title = title;
 
   movies.push(newMovie);
   renderMovies();
