@@ -29,6 +29,8 @@ class ShoppingCart {
 }
 
 class ProductItem {
+  #products = []; // # symbol is private property
+
   constructor(product) {
     this.product = product;
   }
