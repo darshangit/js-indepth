@@ -45,6 +45,7 @@ class Tooltip extends Component {
     this.create();
   }
 
+  
   closeTooltip = () => {
     this.detach();
     this.closeNotifier();
