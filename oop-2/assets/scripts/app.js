@@ -59,7 +59,7 @@ class Tooltip extends Component {
     const toolTipTemplate = document.getElementById('tooltip');
     const toolTipBody = document.importNode(toolTipTemplate.content, true);
     toolTipBody.querySelector('p').textContent = this.text;
-    
+
     tooltipElement.append(toolTipBody);
     const hostElementPositionLeft = this.hostElement.offsetLeft;
     const hostElementPositionTop = this.hostElement.offsetTop;
@@ -170,6 +170,21 @@ class App {
     finishedProjectsList.setSwitchHandlerFunction(
       activeProjectsList.addProject.bind(activeProjectsList)
     );
+
+    //dynamic script addition
+    // const someScript = document.createElement('script');
+    // someScript.textContent = 'alert("Hi there");';
+    // document.head.append(someScript);
+
+    // this.startAnalytics();
+    document.getElementById('start-analytics-button').addEventListener('click', this.startAnalytics);
+
+  }
+  static startAnalytics(){
+      const analyticsScript = document.createElement('script');
+      analyticsScript.src = 'assets/scripts/analytics.js';
+      analyticsScript.defer = true;
+      document.head.append(analyticsScript);
   }
 }
 
