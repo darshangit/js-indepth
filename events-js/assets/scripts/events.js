@@ -57,8 +57,28 @@ div.addEventListener('click', event => {
 
 }, false) // true will capture the event up to down
 
-button.addEventListener('click', event => {
+button.addEventListener('click', function(event) {
     event.stopPropagation();
     event.stopImmediatePropagation(); //the other listeners on the same button will stop executing
     console.log('CLICKED BUTTON');
+    console.log(this);
+});
+
+const listItems = document.querySelectorAll('li');
+const list = document.querySelector('ul');
+
+// listItems.forEach(item => {
+//     item.addEventListener('click', event => {
+//         event.target.classList.toggle('highlight');
+//     })
+// })
+
+//event delegation
+list.addEventListener('click', event => {
+    // console.log(event.currentTarget); // the main element
+    // event.target.classList.toggle('highlight');
+
+    //best way - the closest will give the enwraping element
+    event.target.closest('li').classList.toggle('highlight');
+    form.submit();
 });
