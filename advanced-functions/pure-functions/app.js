@@ -100,3 +100,30 @@ function printFriendNames(pers){
 }
 
 console.log(printFriendNames(myself));
+
+//Math
+function randomIntBetween(min, max){
+    return Math.floor((Math.random() * (max - min + 1)) + min);
+}
+
+console.log(randomIntBetween(10,20));
+
+//Tagged Template
+
+function productDescription(strings, productName, productPrice){
+    console.log(strings);
+    console.log(productName);
+    console.log(productPrice);
+    let priceCategory = 'cheap';
+
+    if(productPrice > 20){
+        priceCategory = 'fair';
+    }
+    return `${strings[0]} ${productName} ) is ${priceCategory}`;
+}
+
+const prodName = 'JS Awesome';
+const prodPRice = 20;
+const productOutput = productDescription`This product (${prodName}) is ${prodPRice}`;
+
+console.log(productOutput);
