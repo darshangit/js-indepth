@@ -34,16 +34,69 @@ multiplier = 1.2;
 console.log(calculateVatAmount(100));
 console.log(calculateIncomeTaxAmount(200));
 
-
 let userName = 'Dash';
 //closures
 function greetUser() {
-    let name = 'Anna';
-    console.log('Hi : ' + name);
+  let name = 'Anna';
+  console.log('Hi : ' + name);
 }
 
 let name = 'Maximilia';
 
 userName = 'Priya';
 
-greetUser()
+greetUser();
+
+// function powerOf(x, n){
+
+//     let result = 1;
+
+//     for(let i = 0; i < n; i++){
+//         result *= x;
+//     }
+//     return result;
+// }
+
+function powerOf(x, n) {
+  return n === 1 ? x : x * powerOf(x, n - 1);
+}
+
+console.log(powerOf(2, 3));
+
+const myself = {
+  name: 'Max',
+  friends: [
+    {
+      name: 'Manuel',
+      friends: [
+        {
+          name: 'Chris',
+          friends: [
+            {
+                name: 'Julia2'
+            }
+          ]
+        },
+      ],
+    },
+    {
+        name: 'Julia'
+    }
+  ],
+};
+
+function printFriendNames(pers){
+    const collecedNames = [];
+
+    if(!pers.friends){
+        return [];
+    }
+
+    for(const friend of pers.friends){
+        collecedNames.push(friend.name);
+        collecedNames.push(...printFriendNames(friend));
+    }
+    return collecedNames;
+}
+
+console.log(printFriendNames(myself));
