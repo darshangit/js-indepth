@@ -5,7 +5,9 @@ const getPosition = (opts) => {
   const promise = new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(success => {
       resolve(success);
-    }, error => {}, opts);
+    }, error => {
+      reject(error);
+    }, opts);
   }, error => {
 
   }, opts);
@@ -24,10 +26,15 @@ const setTimer = (duration) => {
 
 function trackUserHandler() {
   //chaining
-  getPosition().then(posData => {
+  getPosition()
+  .then(posData => {
     console.log(posData);
     return setTimer(2000); // this promise will finish and that result is passed to the then - taht is why the chaining
-  }). then(data => {
+    // can return anything here - need not be promise - internally it will be wrapped into a promise
+  }).catch(err => {
+    console.log('error', err);  //position matters as - al the above will be skipped. below then will be executed. So its best to put it at the end.
+    return 'Ewwww !!! Error';
+  }).then(data => {
     console.log(data);
   });
   console.log('getting position')
