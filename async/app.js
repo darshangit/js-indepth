@@ -1,6 +1,17 @@
 const button = document.querySelector('button');
 const output = document.querySelector('p');
 
+const getPosition = (opts) => {
+  const promise = new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(success => {
+      resolve(success);
+    }, error => {}, opts);
+  }, error => {
+
+  }, opts);
+  return promise;
+};
+
 //promisyfying setTimeout
 const setTimer = (duration) => {
   const promise = new Promise((resolve, reject) => {
@@ -12,17 +23,13 @@ const setTimer = (duration) => {
 }
 
 function trackUserHandler() {
-  navigator.geolocation.getCurrentPosition(posData => {
-    console.log(posData)
-    setTimer(2000).then(data => {
-      console.log(data, posData);
-    });
-  }, error => {
-    console.log(error)
-  })
-  setTimeout(() => {
-    console.log('ola')
-  }, 0)
+  //chaining
+  getPosition().then(posData => {
+    console.log(posData);
+    return setTimer(2000); // this promise will finish and that result is passed to the then - taht is why the chaining
+  }). then(data => {
+    console.log(data);
+  });
   console.log('getting position')
 }
 
