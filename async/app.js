@@ -54,8 +54,29 @@ async function trackUserHandler() {
 
 button.addEventListener('click', trackUserHandler);
 
-let result = 0;
-let result2 = 0;
+// Promise.race([
+//   getPosition(),
+//   setTimer(1000)
+// ]).then(res => {
+//   console.log('RACE', res);
+// });
+
+//Even if one fails the rest of the promises are skipped and error is thrown
+Promise.all([getPosition(), setTimer(1000)]).then(promiseData => {
+  console.log('promise all');
+  console.log(promiseData);
+}).catch(err => {
+  console.log('err', err);
+})
+
+// All promises execute no matter what and the result has the status of - rejected / fulfilled
+Promise.allSettled([getPosition(), setTimer(1000)]).then(promiseData => {
+  console.log(promiseData)
+;})
+
+
+// let result = 0;
+// let result2 = 0;
 
 console.log('hola');
 
