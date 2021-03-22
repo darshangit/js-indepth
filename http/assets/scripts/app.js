@@ -1,24 +1,78 @@
-const xhr = new XMLHttpRequest();
-
 const listElement = document.querySelector('.posts');
 const postTemplate = document.getElementById('single-post');
+const form = document.querySelector('#new-post form');
+const fetchButton = document.querySelector('#available-posts button');
+const postList = document.querySelector('ul');
 
-xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+function sendHttpRequest(method, url, data) {
+  const promise = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url);
 
-xhr.responseType = 'json';
+    xhr.responseType = 'json';
 
-xhr.onload = function(){
-    // const listOfPost = JSON.parse(xhr.response); // json data
-    console.log('listOfPost', xhr.response)
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.response);
+      } else {
+        reject(new Error('Something went wrong'));
+      }
+      // const listOfPost = JSON.parse(xhr.response); // json data
+    };
 
-    for(const post of xhr.response) {
-        const postElement = document.importNode(postTemplate.content, true);
-        postElement.querySelector('h2').textContent = post.title.toUpperCase();
-        postElement.querySelector('p').textContent = post.body;
-        listElement.append(postElement);
-    }
+    xhr.onerror = function () {
+      reject(new Error('Failed to send Request'));
+    };
+
+    xhr.send(JSON.stringify(data));
+  });
+  return promise;
 }
 
-xhr.send();
+async function fetchPosts() {
+  try {
+    listElement.innerHTML = ''; // to make the list elemnet empty - elese it will append
+    const responseData = await sendHttpRequest(
+      'GET',
+      'https://jsonplaceholder.typicode.com/posssts'
+    );
+    for (const post of responseData) {
+      const postElement = document.importNode(postTemplate.content, true);
+      postElement.querySelector('h2').textContent = post.title.toUpperCase();
+      postElement.querySelector('p').textContent = post.body;
+      postElement.querySelector('li').id = post.id;
+      listElement.append(postElement);
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+}
 
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId,
+  };
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+}
 
+fetchButton.addEventListener('click', fetchPosts);
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const title = event.currentTarget.querySelector('#title').value;
+  const content = event.currentTarget.querySelector('#content').value;
+  createPost(title, content);
+});
+
+postList.addEventListener('click', (event) => {
+  if (event.target.tagName === 'BUTTON') {
+    const postId = event.target.closest('li').id;
+    sendHttpRequest(
+      'DELETE',
+      `https://jsonplaceholder.typicode.com/posts/${postId}`
+    );
+    console.log('clicked on button', postId);
+  }
+});
