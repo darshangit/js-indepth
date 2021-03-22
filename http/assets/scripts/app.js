@@ -7,6 +7,7 @@ const postList = document.querySelector('ul');
 function sendHttpRequest(method, url, data) {
 //   const promise = new Promise((resolve, reject) => {
     // const xhr = new XMLHttpRequest();
+    // xhr.setRequestHeader('Content-Type', 'application/json');
     // xhr.open(method, url);
 
     // xhr.responseType = 'json';
@@ -30,9 +31,21 @@ function sendHttpRequest(method, url, data) {
 
   return fetch(url, {
       method: method,
-      data: JSON.stringify(data)
+      data: JSON.stringify(data),
+      headers: {
+          'Content-Type': 'application/json'
+      }
   }).then(resp => {
+    if (resp.status >= 200 && resp.status < 300) {
       return resp.json();
+    } else {
+        return resp.json().then(errData => {
+            console.log('Errored')
+            throw new Error('Something went wrong in the server')
+        })
+    }
+  }).catch(error => {
+      throw new Error('Something went wrong')
   }); // fetch is promisified by default
 
 }
@@ -51,7 +64,8 @@ async function fetchPosts() {
       postElement.querySelector('li').id = post.id;
       listElement.append(postElement);
     }
-  } catch (error) {
+  } 
+  catch (error) {
     alert(error.message);
   }
 }
