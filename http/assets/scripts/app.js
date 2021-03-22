@@ -5,28 +5,36 @@ const fetchButton = document.querySelector('#available-posts button');
 const postList = document.querySelector('ul');
 
 function sendHttpRequest(method, url, data) {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url);
+//   const promise = new Promise((resolve, reject) => {
+    // const xhr = new XMLHttpRequest();
+    // xhr.open(method, url);
 
-    xhr.responseType = 'json';
+    // xhr.responseType = 'json';
 
-    xhr.onload = function () {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response);
-      } else {
-        reject(new Error('Something went wrong'));
-      }
-      // const listOfPost = JSON.parse(xhr.response); // json data
-    };
+    // xhr.onload = function () {
+    //   if (xhr.status >= 200 && xhr.status < 300) {
+    //     resolve(xhr.response);
+    //   } else {
+    //     reject(new Error('Something went wrong'));
+    //   }
+    //   // const listOfPost = JSON.parse(xhr.response); // json data
+    // };
 
-    xhr.onerror = function () {
-      reject(new Error('Failed to send Request'));
-    };
+    // xhr.onerror = function () {
+    //   reject(new Error('Failed to send Request'));
+    // };
 
-    xhr.send(JSON.stringify(data));
-  });
-  return promise;
+    // xhr.send(JSON.stringify(data));
+//   });
+//   return promise;
+
+  return fetch(url, {
+      method: method,
+      data: JSON.stringify(data)
+  }).then(resp => {
+      return resp.json();
+  }); // fetch is promisified by default
+
 }
 
 async function fetchPosts() {
@@ -34,7 +42,7 @@ async function fetchPosts() {
     listElement.innerHTML = ''; // to make the list elemnet empty - elese it will append
     const responseData = await sendHttpRequest(
       'GET',
-      'https://jsonplaceholder.typicode.com/posssts'
+      'https://jsonplaceholder.typicode.com/posts'
     );
     for (const post of responseData) {
       const postElement = document.importNode(postTemplate.content, true);
