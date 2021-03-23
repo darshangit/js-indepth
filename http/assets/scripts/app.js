@@ -31,8 +31,8 @@ function sendHttpRequest(method, url, data) {
 
   return fetch(url, {
       method: method,
-    //   data: JSON.stringify(data),
-    body: data
+    //   data: JSON.stringify(data), // this is for Json
+    body: data // this is for formadata
     //   headers: {
     //       'Content-Type': 'application/json'
     //   }
