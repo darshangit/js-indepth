@@ -5,69 +5,70 @@ const fetchButton = document.querySelector('#available-posts button');
 const postList = document.querySelector('ul');
 
 function sendHttpRequest(method, url, data) {
-//   const promise = new Promise((resolve, reject) => {
-    // const xhr = new XMLHttpRequest();
-    // xhr.setRequestHeader('Content-Type', 'application/json');
-    // xhr.open(method, url);
+  //   const promise = new Promise((resolve, reject) => {
+  // const xhr = new XMLHttpRequest();
+  // xhr.setRequestHeader('Content-Type', 'application/json');
+  // xhr.open(method, url);
 
-    // xhr.responseType = 'json';
+  // xhr.responseType = 'json';
 
-    // xhr.onload = function () {
-    //   if (xhr.status >= 200 && xhr.status < 300) {
-    //     resolve(xhr.response);
-    //   } else {
-    //     reject(new Error('Something went wrong'));
-    //   }
-    //   // const listOfPost = JSON.parse(xhr.response); // json data
-    // };
+  // xhr.onload = function () {
+  //   if (xhr.status >= 200 && xhr.status < 300) {
+  //     resolve(xhr.response);
+  //   } else {
+  //     reject(new Error('Something went wrong'));
+  //   }
+  //   // const listOfPost = JSON.parse(xhr.response); // json data
+  // };
 
-    // xhr.onerror = function () {
-    //   reject(new Error('Failed to send Request'));
-    // };
+  // xhr.onerror = function () {
+  //   reject(new Error('Failed to send Request'));
+  // };
 
-    // xhr.send(JSON.stringify(data));
-//   });
-//   return promise;
+  // xhr.send(JSON.stringify(data));
+  //   });
+  //   return promise;
 
   return fetch(url, {
-      method: method,
+    method: method,
     //   data: JSON.stringify(data), // this is for Json
-    body: data // this is for formadata
+    body: data, // this is for formadata
     //   headers: {
     //       'Content-Type': 'application/json'
     //   }
-  }).then(resp => {
-    if (resp.status >= 200 && resp.status < 300) {
-      return resp.json();
-    } else {
-        return resp.json().then(errData => {
-            console.log('Errored')
-            throw new Error('Something went wrong in the server')
-        })
-    }
-  }).catch(error => {
-      throw new Error('Something went wrong')
-  }); // fetch is promisified by default
-
+  })
+    .then((resp) => {
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.json();
+      } else {
+        return resp.json().then((errData) => {
+          console.log('Errored');
+          throw new Error('Something went wrong in the server');
+        });
+      }
+    })
+    .catch((error) => {
+      throw new Error('Something went wrong');
+    }); // fetch is promisified by default
 }
 
 async function fetchPosts() {
   try {
     listElement.innerHTML = ''; // to make the list elemnet empty - elese it will append
-    const responseData = await sendHttpRequest(
-      'GET',
-      'https://jsonplaceholder.typicode.com/posts'
+    const responseData = await axios.get(
+      'https://jsonplaceholder.typicode.com/postss'
     );
-    for (const post of responseData) {
+    console.log(responseData);
+    for (const post of responseData.data) {
       const postElement = document.importNode(postTemplate.content, true);
       postElement.querySelector('h2').textContent = post.title.toUpperCase();
       postElement.querySelector('p').textContent = post.body;
       postElement.querySelector('li').id = post.id;
       listElement.append(postElement);
     }
-  } 
-  catch (error) {
+  } catch (error) {
     alert(error.message);
+    console.log(error.response);
   }
 }
 
@@ -80,11 +81,15 @@ async function createPost(title, content) {
   };
 
   const fd = new FormData(form);
-//   fd.append('title', title);
-//   fd.append('body', content);
+  //   fd.append('title', title);
+  //   fd.append('body', content);
   fd.append('userId', userId);
 
-  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', fd);
+  const response = await axios.post(
+    'https://jsonplaceholder.typicode.com/posts',
+    post
+  );
+  console.log('response', response);
 }
 
 fetchButton.addEventListener('click', fetchPosts);
