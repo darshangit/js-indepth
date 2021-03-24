@@ -1,9 +1,9 @@
 import { DOMHelper } from '../Utility/DomHelper.js';
 
 export class ProjectItem {
-  hasActiveTooltip = false;
 
   constructor(id, updateProjectListsFunction, type) {
+    this.hasActiveTooltip = false;
     this.id = id;
     this.updateProjectListsHandler = updateProjectListsFunction;
     this.connectMoreInfoButton();

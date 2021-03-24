@@ -3,9 +3,9 @@ import * as DomHelper from '../Utility/DomHelper.js';
 
 
 export class ProjectList {
-  projects = [];
 
   constructor(type) {
+    this.projects = [];
     this.type = type;
     const prjItems = document.querySelectorAll(`#${type}-projects li`);
     for (const prjItem of prjItems) {

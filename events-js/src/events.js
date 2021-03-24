@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const button = document.querySelector('button');
 
 // NOt recommedded
@@ -9,7 +10,7 @@ const buttonClickHandler = event => {
 
 const anotherClickHandler =() => {
     console.log('hehe');
-}
+};
 
 // button.onclick = buttonClickHandler;
 // button.onclick = anotherClickHandler;
@@ -49,13 +50,13 @@ const form = document.querySelector('form');
 form.addEventListener('submit', event => {
     event.preventDefault();
     console.log(event);
-})
+});
 
 const div = document.querySelector('div');
 div.addEventListener('click', event => {
     console.log('CLICKED DIV');
 
-}, false) // true will capture the event up to down
+}, false); // true will capture the event up to down
 
 button.addEventListener('click', function(event) {
     event.stopPropagation();
