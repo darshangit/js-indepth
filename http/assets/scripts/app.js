@@ -56,7 +56,7 @@ async function fetchPosts() {
   try {
     listElement.innerHTML = ''; // to make the list elemnet empty - elese it will append
     const responseData = await axios.get(
-      'https://jsonplaceholder.typicode.com/postss'
+      'https://jsonplaceholder.typicode.com/posts'
     );
     console.log(responseData);
     for (const post of responseData.data) {
@@ -103,8 +103,7 @@ form.addEventListener('submit', (event) => {
 postList.addEventListener('click', (event) => {
   if (event.target.tagName === 'BUTTON') {
     const postId = event.target.closest('li').id;
-    sendHttpRequest(
-      'DELETE',
+    axios.delete(
       `https://jsonplaceholder.typicode.com/posts/${postId}`
     );
     console.log('clicked on button', postId);
