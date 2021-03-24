@@ -1,8 +1,12 @@
 import { ProjectList } from "./App/ProjectList.js";
+window.DEFAULT_VALUE = '10'; // if we want to transfer it across other classes - dont do this
+globalThis.DEFAULT_VALUE = 'MAX';
+
 class App {
   static init() {
     const activeProjectsList = new ProjectList('active');
     const finishedProjectsList = new ProjectList('finished');
+
     activeProjectsList.setSwitchHandlerFunction(
       finishedProjectsList.addProject.bind(finishedProjectsList)
     );

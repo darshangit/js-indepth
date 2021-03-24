@@ -1,5 +1,4 @@
-import { DOMHelper } from "../Utility/DomHelper.js";
-import { Tooltip } from "./Tooltip.js";
+import { DOMHelper } from '../Utility/DomHelper.js';
 
 export class ProjectItem {
   hasActiveTooltip = false;
@@ -18,15 +17,17 @@ export class ProjectItem {
     }
     const projectElement = document.getElementById(this.id);
     const tooltipText = projectElement.dataset.extraInfo;
-    const tooltip = new Tooltip(
-      () => {
-        this.hasActiveTooltip = false;
-      },
-      tooltipText,
-      this.id
-    );
-    tooltip.attach();
-    this.hasActiveTooltip = true;
+    import('./Tooltip.js').then((module) => { // laxy loading - the import returns a promise
+      const tooltip = new module.Tooltip(
+        () => {
+          this.hasActiveTooltip = false;
+        },
+        tooltipText,
+        this.id
+      );
+      tooltip.attach();
+      this.hasActiveTooltip = true;
+    });
   }
 
   connectDrag() {
