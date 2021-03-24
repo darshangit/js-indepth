@@ -4,6 +4,7 @@ import * as DomHelper from '../Utility/DomHelper.js';
 
 export class ProjectList {
 
+
   constructor(type) {
     this.projects = [];
     this.type = type;

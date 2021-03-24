@@ -1,13 +1,13 @@
 const path = require('path');
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: './events-js/src/app.js',
     output: {
         filename: 'app.js',
         path: path.resolve(__dirname, './events-js/assets', 'scripts'),
         publicPath: 'assets/scripts/'
     },
-    devtool: 'eval-cheap-module-source-map',
+    devtool: 'cheap-source-map',
     devServer: {
         contentBase: './events-js'
     }
