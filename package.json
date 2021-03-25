@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/darshangit/js-indepth#readme",
   "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
     "eslint": "^7.22.0",
     "eslint-plugin-import": "^2.22.1",
     "webpack": "^5.28.0",

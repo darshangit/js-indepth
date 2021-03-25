@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { ProjectList } from './App/ProjectList.js';
 window.DEFAULT_VALUE = '10'; // if we want to transfer it across other classes - dont do this
 globalThis.DEFAULT_VALUE = 'MAX';
