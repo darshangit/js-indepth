@@ -40,7 +40,7 @@ class PlaceFinder {
     }
     this.shareBtn.disabled = false;
     const shareLinkedInput = document.getElementById('share-link');
-    shareLinkedInput.value = `${location.origin}?address=${encodeURI(
+    shareLinkedInput.value = `${location.origin}/my-place/?address=${encodeURI(
       address
     )}&lat=${coordinates.lat}&lng=${coordinates.lng}`;
   }

@@ -3,3 +3,4 @@ node_modules
 
 share-my-place/dist/index.html
 share-my-place/src/Utility/Location.js
+share-my-place/dist/my-place/index.html
