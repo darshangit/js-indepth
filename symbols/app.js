@@ -85,7 +85,7 @@ console.log(persons);
 // ---Reflect API
 
 const course = {
-  title: 'JS - Advanced',
+  title: 'JS - Advanced- Dsah',
 };
 
 Reflect.setPrototypeOf(course, {
@@ -100,3 +100,17 @@ Reflect.setPrototypeOf(course, {
 //Reflect APi is new
 // You can use the Reflect API to do meta work on a object - add prototype etc.
 console.log(course);
+
+//Proxy API
+
+const courseHandler = {
+  get(obj, propertyName) {
+    console.log(propertyName);
+    return obj[propertyName] || 'NOT FOUND';
+  },
+};
+
+//basically a wrapper
+const pCourse = new Proxy(course, courseHandler);
+console.log(pCourse.title);
+console.log(pCourse.name);
