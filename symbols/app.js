@@ -104,13 +104,23 @@ console.log(course);
 //Proxy API
 
 const courseHandler = {
+  //whenever a object proper is access this will be called - basically override
   get(obj, propertyName) {
     console.log(propertyName);
     return obj[propertyName] || 'NOT FOUND';
   },
+  set(obj, propertyName, newValue){
+      if(propertyName == 'rating'){
+          return obj[propertyName] = 'NA';
+      }
+      obj[propertyName] = newValue;
+  }
 };
 
 //basically a wrapper
 const pCourse = new Proxy(course, courseHandler);
+pCourse.rating = 5;
 console.log(pCourse.title);
 console.log(pCourse.name);
+console.log(pCourse.rating);
+
