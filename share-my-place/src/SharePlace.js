@@ -54,13 +54,12 @@ class PlaceFinder {
         return resp.json();
       })
       .then((data) => {
+        const locationId = data.locId;
+        this.shareBtn.disabled = false;
+        const shareLinkedInput = document.getElementById('share-link');
+        shareLinkedInput.value = `${location.origin}/my-place/?location=${locationId}`;
         console.log(data);
       });
-    this.shareBtn.disabled = false;
-    const shareLinkedInput = document.getElementById('share-link');
-    shareLinkedInput.value = `${location.origin}/my-place/?address=${encodeURI(
-      address
-    )}&lat=${coordinates.lat}&lng=${coordinates.lng}`;
   }
 
   locateUserBtnHandler() {
