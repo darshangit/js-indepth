@@ -38,6 +38,24 @@ class PlaceFinder {
     } else {
       this.map = new Map(coordinates);
     }
+    // making a call to node-js/ express
+    fetch('http://localhost:3000/add-location', {
+      method: 'POST',
+      body: JSON.stringify({
+        address: address,
+        lat: coordinates.lat,
+        lng: coordinates.lng,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((resp) => {
+        return resp.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
     this.shareBtn.disabled = false;
     const shareLinkedInput = document.getElementById('share-link');
     shareLinkedInput.value = `${location.origin}/my-place/?address=${encodeURI(
