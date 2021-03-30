@@ -1,9 +1,11 @@
 import { Map } from './UI/Map';
+import sanitizeHtml from "sanitize-html";
 class LoadedPlace {
   constructor(coordinates, address) {
     new Map(coordinates);
     const headerTitleEl = document.querySelector('header h1');
-    headerTitleEl.textContent = address;
+    // headerTitleEl.textContent = address; // always use textContent istead of innerHTML
+    headerTitleEl.innerHTML = sanitizeHtml(address); // without sanitize its CSS
   }
 }
 const url = new URL(location.href);
